@@ -2,6 +2,9 @@
   "name": "chip420",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "@react95/core": "^2.11.5",
     "@testing-library/jest-dom": "^5.11.4",
