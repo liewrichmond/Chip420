@@ -8,7 +8,11 @@ const StyledShorcut = styled.div`
 	align-items: center;
 `;
 
-const DesktopIcons: React.FC = () => {
+interface DesktopIconsProps {
+    handleChip420IconClick: () => void
+}
+
+const DesktopIcons: React.FC<DesktopIconsProps> = (props: DesktopIconsProps) => {
     return (
         <div>
             <div>
@@ -16,7 +20,7 @@ const DesktopIcons: React.FC = () => {
                     <Icon
                         className="pointer"
                         name="bat_exec"
-                        onClick={() => {}}
+                        onClick={() => {props.handleChip420IconClick()}}
                     />
                     <div>Chip420.exe</div>
                 </StyledShorcut>

@@ -12,14 +12,17 @@ const Desktop: React.FC = () => {
         chip8.current = new Chip8()
     }, [])
 
-    const [showGameSelection, setShowGameSelection] = useState(true)
     const games: any = getGames()
-    const items = Object.keys(games)
+
+    const [showGameSelection, setShowGameSelection] = useState(true)
+    const [showChip8Window, setShowChip8Window] = useState(true)
+
     const onLoadGameClick = () => {
         setShowGameSelection(true)
     }
     const onSelectGameClick = (game: string): void => {
         setShowGameSelection(false)
+        setShowChip8Window(true)
         if (chip8.current) {
             chip8.current.stop();
             chip8.current.loadRomIntoMemory(games[game]).then(() => {
@@ -29,6 +32,23 @@ const Desktop: React.FC = () => {
             })
         }
     }
+
+    const handleChip420IconClick = () => {
+        setShowChip8Window(true)
+        setShowGameSelection(true)
+    }
+
+    const closeChip8Window = () => {
+        if (chip8.current) {
+            chip8.current.stop();
+            setShowChip8Window(false)
+        }
+    }
+    
+    const closeGameSelectionWindow = () => {
+        setShowGameSelection(false)
+    }
+
     const registerKeyPress = (event: React.KeyboardEvent) => {
         if (chip8.current) {
             chip8.current.registerKeyPress(event.key)
@@ -41,12 +61,15 @@ const Desktop: React.FC = () => {
         }
     }
 
-
     return (
         <div>
-            <DesktopIcons />
-            {showGameSelection && <SelectionWindow games={items} handleSelectGameClick={onSelectGameClick} />}
-            <Chip8Window handleLoadGameClick={onLoadGameClick} registerKeyPress={registerKeyPress} registerKeyRelease={registerKeyRelease} />
+            <DesktopIcons handleChip420IconClick={handleChip420IconClick} />
+            {showGameSelection && <SelectionWindow games={Object.keys(games)} handleSelectGameClick={onSelectGameClick} closeWindow={closeGameSelectionWindow} />}
+            {
+                showChip8Window &&
+                <Chip8Window handleLoadGameClick={onLoadGameClick} registerKeyPress={registerKeyPress}
+                    registerKeyRelease={registerKeyRelease} closeWindow={closeChip8Window} />
+            }
         </div>
     )
 }

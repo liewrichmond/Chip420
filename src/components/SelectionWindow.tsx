@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Modal, Frame, Icon } from "@react95/core"
 import styled from "styled-components"
 
-interface SelectionWindowProps {
-    games: string[]
-    handleSelectGameClick: (game: string) => void
-}
 
 const FilesWrapper = styled.div`
 	display: flex;
@@ -26,8 +22,14 @@ const StyledItem = styled.div`
 const StyledSpan = styled.span`
 	margin-top: 5px;
 `
+interface SelectionWindowProps {
+    games: string[]
+    handleSelectGameClick: (game: string) => void
+    closeWindow: () => void
+}
 
-const SelectionWindow: React.FC<SelectionWindowProps> = (inProps: SelectionWindowProps) => {
+
+const SelectionWindow: React.FC<SelectionWindowProps> = (props: SelectionWindowProps) => {
     const [selectedGame, setSelectedGame] = useState("")
 
     const selectItem = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -40,21 +42,21 @@ const SelectionWindow: React.FC<SelectionWindowProps> = (inProps: SelectionWindo
             title="Select Game"
             buttonsAlignment="flex-end"
             icon="access_221"
-            closeModal={() => { }}
+            closeModal={() => { props.closeWindow() }}
             width="400"
             height="350"
-            buttons={[{ value: "Select", onClick: () => {inProps.handleSelectGameClick(selectedGame)} }]}
+            buttons={[{ value: "Select", onClick: () => { props.handleSelectGameClick(selectedGame) } }]}
         >
             <Frame boxShadow="in" height="100%" bg="white">
                 <FilesWrapper>
                     {
-                        inProps.games.map((game) =>
-                            <StyledItem onClick={selectItem} id={game}> 
+                        props.games.map((game) =>
+                            <StyledItem onClick={selectItem} id={game}>
                                 <Icon
                                     name="folder_exe"
                                     className="pointer"
                                 />
-                                <StyledSpan style = {game === selectedGame? {background: "#4293f5", color:"white"} : {background: "white"}}>{game}</StyledSpan>
+                                <StyledSpan style={game === selectedGame ? { background: "#4293f5", color: "white" } : { background: "white" }}>{game}</StyledSpan>
                             </StyledItem>
                         )
                     }

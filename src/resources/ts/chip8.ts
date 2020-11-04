@@ -1,8 +1,4 @@
 import CPU from "./cpu"
-import Tetris from "../assets/roms/Tetris.ch8"
-import spaceInvaders from "../assets/roms/spaceInvaders.ch8"
-import testRom from "../assets/roms/test_opcode.ch8"
-import testRom2 from "../assets/roms/BC_test.ch8"
 
 class Chip8 {
     private cpu: CPU
@@ -97,7 +93,7 @@ class Chip8 {
     public stop(): void {
         clearInterval(this.cycleInterval);
         clearInterval(this.delayInterval);
-        this.cpu.reset();
+        // this.cpu.reset();
     }
 }
 

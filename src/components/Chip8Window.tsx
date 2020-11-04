@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import {
     Modal,
     List,
@@ -8,6 +8,7 @@ import styled from 'styled-components'
 
 interface Chip8WindowProps {
     handleLoadGameClick: () => void
+    closeWindow: () => void
     registerKeyPress: (event: React.KeyboardEvent) => void
     registerKeyRelease: (event: React.KeyboardEvent) => void
 }
@@ -30,7 +31,7 @@ const Chip8Window: React.FC<Chip8WindowProps> = (props: Chip8WindowProps) => {
         <Modal
             title="Chip420"
             buttonsAlignment="flex-end"
-            closeModal={function noRefCheck() { }}
+            closeModal={() => { props.closeWindow() }}
             defaultPosition={{
                 x: 700,
                 y: 200

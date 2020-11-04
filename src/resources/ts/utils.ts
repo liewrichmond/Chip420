@@ -5,7 +5,7 @@ import testRom2 from "../assets/roms/BC_test.ch8"
 
 
 
-export const getGames = () => {
+export const getGames = ():{[key:string]: string} => {
     return {
         "Tetris": Tetris,
         "Space Invaders": spaceInvaders,
