@@ -20,7 +20,7 @@ const Desktop: React.FC = () => {
     const onLoadGameClick = () => {
         setShowGameSelection(true)
     }
-    
+
     const onSelectGameClick = (game: string): void => {
         setShowGameSelection(false)
         setShowChip8Window(true)
@@ -51,7 +51,6 @@ const Desktop: React.FC = () => {
     }
 
     const registerKeyPress = (event: React.KeyboardEvent) => {
-        console.log(event.key)
         if (chip8.current) {
             chip8.current.registerKeyPress(event.key)
         }
