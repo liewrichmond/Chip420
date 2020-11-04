@@ -45,6 +45,10 @@ const SelectionWindow: React.FC<SelectionWindowProps> = (props: SelectionWindowP
             closeModal={() => { props.closeWindow() }}
             width="400"
             height="350"
+            defaultPosition={{
+                x: 250,
+                y: 250
+            }}
             buttons={[{ value: "Select", onClick: () => { props.handleSelectGameClick(selectedGame) } }]}
         >
             <Frame boxShadow="in" height="100%" bg="white">

@@ -28,8 +28,26 @@ class Chip8 {
             0xF0, 0x80, 0xF0, 0x80, 0xF0,
             0xF0, 0x80, 0xF0, 0x80, 0x80,
         ]
-        for(let i = 0; i < fonts.length; i++) {
+        for (let i = 0; i < fonts.length; i++) {
             this.memory[i] = fonts[i]
+        }
+    }
+
+    private createDefaultKeyboard(): { [keyCode: string]: number } {
+        return {
+            "1": 0x1, "2": 0x2, "3": 0x3, "4": 0xC,
+            "q": 0x4, "w": 0x5, "e": 0x6, "r": 0xD,
+            "a": 0x7, "s": 0x8, "d": 0x9, "f": 0xE,
+            "z": 0xA, "x": 0x0, "c": 0xB, "v": 0xF
+        }
+    }
+
+    private setKeyboard(newKeyBindings?: { [keyCode: string]: string }) {
+        if(newKeyBindings) {
+            for(const keyCode in newKeyBindings) {
+                const chip8KeyValue = this.keyboard[newKeyBindings[keyCode]]
+                this.keyboard[keyCode] = chip8KeyValue
+            }
         }
     }
 
@@ -37,12 +55,7 @@ class Chip8 {
         this.memory = new Uint8Array(4096)
         this.loadFontsIntoMemory();
         this.cpu = new CPU(this.memory);
-        this.keyboard = {
-            "1": 0x1, "2": 0x2, "3": 0x3, "4": 0xC,
-            "q": 0x4, "w": 0x5, "e": 0x6, "r": 0xD,
-            "a": 0x7, "s": 0x8, "d": 0x9, "f": 0xE,
-            "z": 0xA, "x": 0x0, "c": 0xB, "v": 0xF
-        }
+        this.keyboard = this.createDefaultKeyboard()
     }
 
     private async getRom(romStr: string): Promise<Uint8Array> {
@@ -84,8 +97,9 @@ class Chip8 {
         }
     }
 
-    public start(clockSpeed: number): void {
+    public start(clockSpeed: number, newKeyBindings?:{ [keyCode: string]: string } ): void {
         this.cpu.reset()
+        this.setKeyboard(newKeyBindings);
         this.cycleInterval = window.setInterval(() => { this.cpu.cycle() }, clockSpeed)
         this.delayInterval = window.setInterval(() => { this.cpu.decrementTimer() }, 16)
     }
@@ -93,7 +107,6 @@ class Chip8 {
     public stop(): void {
         clearInterval(this.cycleInterval);
         clearInterval(this.delayInterval);
-        // this.cpu.reset();
     }
 }
 

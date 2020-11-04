@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import DesktopIcons from "./DesktopIcons"
 import Chip8Window from "./Chip8Window"
 import SelectionWindow from "./SelectionWindow"
-import { getGames } from "../resources/ts/utils"
+import { getGameMetadata, gameMetadata } from "../resources/ts/utils"
 import Chip8 from '../resources/ts/chip8';
 
 
@@ -12,7 +12,7 @@ const Desktop: React.FC = () => {
         chip8.current = new Chip8()
     }, [])
 
-    const games: any = getGames()
+    const games: { [game: string]: gameMetadata } = getGameMetadata();
 
     const [showGameSelection, setShowGameSelection] = useState(true)
     const [showChip8Window, setShowChip8Window] = useState(true)
@@ -20,14 +20,15 @@ const Desktop: React.FC = () => {
     const onLoadGameClick = () => {
         setShowGameSelection(true)
     }
+    
     const onSelectGameClick = (game: string): void => {
         setShowGameSelection(false)
         setShowChip8Window(true)
         if (chip8.current) {
             chip8.current.stop();
-            chip8.current.loadRomIntoMemory(games[game]).then(() => {
+            chip8.current.loadRomIntoMemory(games[game].romLocation).then(() => {
                 if (chip8.current) {
-                    chip8.current.start(3)
+                    chip8.current.start(3, games[game].keyBindings)
                 }
             })
         }
@@ -44,12 +45,13 @@ const Desktop: React.FC = () => {
             setShowChip8Window(false)
         }
     }
-    
+
     const closeGameSelectionWindow = () => {
         setShowGameSelection(false)
     }
 
     const registerKeyPress = (event: React.KeyboardEvent) => {
+        console.log(event.key)
         if (chip8.current) {
             chip8.current.registerKeyPress(event.key)
         }
