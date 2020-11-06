@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import DesktopIcons from "./DesktopIcons"
 import Chip8Window from "./Chip8Window"
 import SelectionWindow from "./SelectionWindow"
+import TxtWindow from "./txts/TxtWindow"
 import { getGameMetadata, gameMetadata } from "../resources/ts/utils"
 import Chip8 from '../resources/ts/chip8';
 
@@ -16,8 +17,10 @@ const Desktop: React.FC = () => {
 
     const [showGameSelection, setShowGameSelection] = useState(true)
     const [showChip8Window, setShowChip8Window] = useState(true)
+    const [TxtWindowOpened, toggleTxtWindow] = useState(true)
+    const [TxtWindowWhich, setTxtWindowWhich] = useState("why")
 
-    const onLoadGameClick = () => {
+    const openGameSelectionWindow = () => {
         setShowGameSelection(true)
     }
 
@@ -34,7 +37,16 @@ const Desktop: React.FC = () => {
         }
     }
 
-    const handleChip420IconClick = () => {
+    const openTxt = (which: string): void => {
+        toggleTxtWindow(true)
+        setTxtWindowWhich(which)
+    }
+
+    const closeTxt = (): void => {
+        toggleTxtWindow(false)
+    }
+
+    const openChip420Window = () => {
         setShowChip8Window(true)
         setShowGameSelection(true)
     }
@@ -64,12 +76,20 @@ const Desktop: React.FC = () => {
 
     return (
         <div>
-            <DesktopIcons handleChip420IconClick={handleChip420IconClick} />
-            {showGameSelection && <SelectionWindow games={Object.keys(games)} handleSelectGameClick={onSelectGameClick} closeWindow={closeGameSelectionWindow} />}
+            <DesktopIcons openChip420Window={openChip420Window} openTxt={openTxt} />
             {
-                showChip8Window &&
-                <Chip8Window handleLoadGameClick={onLoadGameClick} registerKeyPress={registerKeyPress}
-                    registerKeyRelease={registerKeyRelease} closeWindow={closeChip8Window} />
+                showGameSelection && (
+                    <SelectionWindow games={Object.keys(games)} handleSelectGameClick={onSelectGameClick} closeWindow={closeGameSelectionWindow} />
+                )
+            }
+            {
+                TxtWindowOpened && < TxtWindow which={TxtWindowWhich} closeTxtWindow={closeTxt} />
+            }
+            {
+                showChip8Window && (
+                    <Chip8Window handleLoadGameClick={openGameSelectionWindow} registerKeyPress={registerKeyPress}
+                        registerKeyRelease={registerKeyRelease} closeWindow={closeChip8Window} />
+                )
             }
         </div>
     )

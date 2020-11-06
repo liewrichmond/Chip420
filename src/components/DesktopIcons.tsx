@@ -9,7 +9,8 @@ const StyledShorcut = styled.div`
 `;
 
 interface DesktopIconsProps {
-    handleChip420IconClick: () => void
+    openChip420Window: () => void
+    openTxt: (txt: string) => void
 }
 
 const DesktopIcons: React.FC<DesktopIconsProps> = (props: DesktopIconsProps) => {
@@ -20,7 +21,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = (props: DesktopIconsProps) => 
                     <Icon
                         className="pointer"
                         name="bat_exec"
-                        onClick={() => {props.handleChip420IconClick()}}
+                        onClick={() => {props.openChip420Window()}}
                     />
                     <div>Chip420.exe</div>
                 </StyledShorcut>
@@ -28,7 +29,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = (props: DesktopIconsProps) => 
                     <Icon
                         className="pointer"
                         name="file_text"
-                        onClick={() => {}}
+                        onClick={() => {props.openTxt("why")}}
                     />
                     <div>why.txt</div>
                 </StyledShorcut>
@@ -36,7 +37,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = (props: DesktopIconsProps) => 
                     <Icon
                         className="pointer"
                         name="file_text"
-                        onClick={() => {}}
+                        onClick={() => {props.openTxt("inspo")}}
                     />
                     <div>inspo.txt</div>
                 </StyledShorcut>

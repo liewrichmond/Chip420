@@ -46,8 +46,8 @@ const SelectionWindow: React.FC<SelectionWindowProps> = (props: SelectionWindowP
             width="400"
             height="350"
             defaultPosition={{
-                x: 250,
-                y: 250
+                x: 275,
+                y: 520
             }}
             buttons={[{ value: "Select", onClick: () => { props.handleSelectGameClick(selectedGame) } }]}
         >
